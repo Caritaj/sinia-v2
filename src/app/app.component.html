@@ -1,0 +1,103 @@
+<router-outlet></router-outlet>
+<div class="main container">
+  <app-formulario
+  (parametrosUbigeoTematica)="recibirUbigeoTematica($event)"
+  ></app-formulario>
+  <div class="container" *ngIf="mensajeNoDatos == '' && !isLoading ">
+      <div class="row" >
+        <div class="col-md-4 mt-4 mb-4">
+          <div class="indicadores-container">
+            <div class="indicadores-title">Indicadores disponibles</div>
+            <div class="indicadores-datos">
+              <app-indicadores
+                  (parametrosDatosIndicador)="recibirDatosIndicador($event)"
+                  [listaIndicadoresFiltradaIndi]="listaIndicadoresFiltrada"
+                  [ubigeoSeleccIndi]="id_ubigeoSelecc"
+                  [tematicaSeleccIndi]="tematicaSelecc"
+                  [ambitoNorDIndi]="ambito"
+              ></app-indicadores>
+            </div>
+              
+          </div>
+        </div>
+        <div class="col-md-8 mt-4 mb-4"> 
+          <mat-tab-group  class="tabs-container" animationDuration="0ms" animationDisabled>
+            <mat-tab>
+              <div class="charts-container-section">
+                <ng-template mat-tab-label>
+                  <mat-icon class="example-tab-icon">bar_chart</mat-icon>
+                    Gráfico
+                </ng-template>
+                <app-grafico
+                  
+                  [tematica]="tematicaSelecc"
+                  [ubigeo]="id_ubigeoSelecc"
+                  [series]="id_serieSelecc"
+                  [ambito]="id_ambitoSelecc"
+                  [indicador]="id_indicadorSelecc"
+                  [fuente]="id_fuenteSelecc"
+                  [unidad]="id_unidadSelecc"
+                  [indicadorNombre]="id_indicadorNombreSelecc"
+                  [nombreUbigeo]="nombre_ubigeoSelecc"
+              ></app-grafico>
+              </div>
+            </mat-tab>
+            <mat-tab >
+              <div class="charts-container-section">
+                <ng-template mat-tab-label>
+                  <mat-icon class="example-tab-icon">domain</mat-icon>
+                    Datos
+                </ng-template>
+                <app-datos-tabla
+                [unidad_siglaData]="id_unidad_siglaSelecc"
+                [unidadData]="id_unidadSelecc"
+                [fuenteTabla]="id_fuenteSelecc"
+                [dependeciaTabla]="id_dependenciaSelecc"
+                [nombreIndicadorTabla]="id_indicadorNombreSelecc"
+                [ListaDatosPadre]="listaDatosPadre"
+  
+                ></app-datos-tabla>
+                
+              </div>
+        
+            </mat-tab>
+            <mat-tab>
+              <div class="charts-container-section">
+                <ng-template mat-tab-label>
+                  <mat-icon class="example-tab-icon">event_note</mat-icon>
+                  Ficha de divulgación
+                </ng-template>
+                <app-ficha
+                [ListaFicha]="listaFichaPadre"
+                ></app-ficha>
+              </div>
+              
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+    </div>
+  <div *ngIf="valoresVacios">
+    <h1>No Hay datos</h1>
+  </div>
+  
+  <div  class="container" *ngIf="mensajeNoDatos !== ''">
+    <div class="contenedor">
+      <div class="nodata">
+        <h2 class="alert alert-primary">{{ mensajeNoDatos }}</h2>
+        <img src="../assets/img/nono_3.png"/>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isLoading">
+    <div class="container">
+      <div class="contenedor">
+        <div class="nodata">
+            <mat-spinner style="width: 50px; height: 50px;">
+            </mat-spinner>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
